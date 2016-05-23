@@ -52,7 +52,7 @@ for entry in data:
         outf.write(entry[args.cols[1]] + ',')
         outf.write(entry[args.cols[2]] + ',')
         try:
-            outf.write(entry[arcs.cols[3]] + ',')
+            outf.write(entry[args.cols[3]] + ',')
         except:
             outf.write('6,')
         outf.write(args.equinox + '\n')
