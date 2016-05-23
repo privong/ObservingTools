@@ -43,7 +43,7 @@ outf.write('# edb catalog generated automatically from ' + args.catalog + '\n')
 outf.write('# Generated at ' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '.\n')
 
 for entry in data:
-    if entry[0] == '#':
+    if entry[0] == '#' or entry[0] == '!':
         continue
     entry = entry.split()
     if len(entry) > 0:
