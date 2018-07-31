@@ -4,7 +4,7 @@
 #
 # Take a csv or tsv catalog and convert it into an xephem .edb catalog
 #
-# Copyright (c) 2015–2016 George C. Privon
+# Copyright (c) 2015–2016,2018 George C. Privon
 
 import numpy as np
 import argparse
@@ -45,14 +45,14 @@ outf.write('# Generated at ' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:
 for entry in data:
     if entry[0] == '#' or entry[0] == '!':
         continue
-    entry = entry.split()
+    entry = entry.split(',')
     if len(entry) > 0:
-        outf.write(entry[args.cols[0]] + ',')
+        outf.write(entry[args.cols[0]].rstrip('\n') + ',')
         outf.write('f|G,')
-        outf.write(entry[args.cols[1]] + ',')
-        outf.write(entry[args.cols[2]] + ',')
+        outf.write(entry[args.cols[1]].rstrip('\n') + ',')
+        outf.write(entry[args.cols[2]].rstrip('\n') + ',')
         try:
-            outf.write(entry[args.cols[3]] + ',')
+            outf.write(entry[args.cols[3]].rstrip('\n') + ',')
         except:
             outf.write('6,')
         outf.write(args.equinox + '\n')
