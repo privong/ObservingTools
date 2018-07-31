@@ -27,6 +27,8 @@ parser.add_argument('--cols','-c', type=str, default=None,
                     help='Columns to use for name, RA, Dec, magnitude')
 parser.add_argument('--equinox', '-e', type=str, default='2000',
                     help='Equinox of coordinates. 2000 (default) or 1950.')
+parser.add_argument('--srcprefix', type=str, default=None,
+                    help='Add a prefix to the source name.')
 args = parser.parse_args()
 
 data = open(args.catalog)
@@ -42,12 +44,17 @@ outf = open(args.output, 'w')
 outf.write('# edb catalog generated automatically from ' + args.catalog + '\n')
 outf.write('# Generated at ' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '.\n')
 
-for entry in data:
+srcprefix = ''
+comments = 0
+for i,entry in enumerate(data):
     if entry[0] == '#' or entry[0] == '!':
+        comments += 1
         continue
     entry = entry.split(',')
     if len(entry) > 0:
-        outf.write(entry[args.cols[0]].rstrip('\n') + ',')
+        if args.srcprefix == 'SOAR':
+            srcprefix = '[{0:1d}]'.format(i-comments)
+        outf.write(srcprefix + entry[args.cols[0]].rstrip('\n') + ',')
         outf.write('f|G,')
         outf.write(entry[args.cols[1]].rstrip('\n') + ',')
         outf.write(entry[args.cols[2]].rstrip('\n') + ',')
